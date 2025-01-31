@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Love Bank</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1a001a;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .header {
+      background: linear-gradient(45deg, #ff0080, #ff80bf);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px;
+      box-shadow: 0 0 20px #ff00ff;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 3rem;
+    }
+
+    .bank-overview {
+      margin: 20px auto;
+      max-width: 800px;
+      padding: 30px;
+      background: rgba(255, 0, 128, 0.1);
+      border: 2px solid #ff80bf;
+      border-radius: 15px;
+      box-shadow: 0 0 15px #ff80bf;
+      position: relative;
+    }
+
+    .user-section {
+      margin-top: 20px;
+      padding: 25px;
+      border: 2px solid #ff80bf;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffb3d9;
+      position: relative;
+    }
+
+    .user-name {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .counter {
+      font-size: 1.8rem;
+      margin: 15px 0;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .button {
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      color: white;
+      background: linear-gradient(45deg, #ff0080, #ff80bf);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #ff80bf;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.1);
+      background: linear-gradient(45deg, #ff80bf, #ff0080);
+    }
+
+    .doll {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      top: -60px;
+    }
+
+    .bubu-doll {
+      left: -250px;
+      top:100px;
+    }
+
+    .papu-doll {
+      right: -250px;
+      top:100px;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0;
+      transition: all 1s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Digital Love Bank</h1>
+      <p>Where love is stored and shared ❤️</p>
+    </div>
+
+    <div class="bank-overview">
+      <img src="bub.jpg" class="doll bubu-doll" alt="Bubu">
+      <img src="dudu.jpg" class="doll papu-doll" alt="Papu">
+
+      <div class="user-section">
+        <p class="user-name">Bubu's Love Account</p>
+        <p class="counter" id="bubuCounter">💖 Hearts: 0</p>
+        <div class="buttons">
+          <button class="button" onclick="depositToPapu(10)">Send Love to Papu</button>
+          <button class="button" onclick="withdrawFromBubu(10)">Withdraw Love</button>
+        </div>
+      </div>
+
+      <div class="user-section">
+        <p class="user-name">Papu's Love Account</p>
+        <p class="counter" id="papuCounter">💖 Hearts: 0</p>
+        <div class="buttons">
+          <button class="button" onclick="depositToBubu(10)">Send Love to Bubu</button>
+          <button class="button" onclick="withdrawFromPapu(10)">Withdraw Love</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let bubuHearts = 0;
+    let papuHearts = 0;
+
+    function updateCounters() {
+      document.getElementById("bubuCounter").innerHTML = `💖 Hearts: ${bubuHearts}`;
+      document.getElementById("papuCounter").innerHTML = `💖 Hearts: ${papuHearts}`;
+    }
+
+    function showHeart(from, to) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+      document.body.appendChild(heart);
+      
+      heart.style.left = from === "bubu" ? "50px" : "calc(100% - 50px)";
+      heart.style.top = "50%";
+      heart.style.opacity = "1";
+      
+      setTimeout(() => {
+        heart.style.left = to === "bubu" ? "50px" : "calc(100% - 50px)";
+        heart.style.opacity = "0";
+      }, 500);
+      
+      setTimeout(() => heart.remove(), 1000);
+    }
+
+    function depositToPapu(amount) {
+      papuHearts += amount;
+      showHeart("bubu", "papu");
+      updateCounters();
+    }
+
+    function depositToBubu(amount) {
+      bubuHearts += amount;
+      showHeart("papu", "bubu");
+      updateCounters();
+    }
+
+    function withdrawFromBubu(amount) {
+      if (bubuHearts >= amount) {
+        bubuHearts -= amount;
+        updateCounters();
+      }
+    }
+
+    function withdrawFromPapu(amount) {
+      if (papuHearts >= amount) {
+        papuHearts -= amount;
+        updateCounters();
+      }
+    }
+  </script>
+</body>
+</html>
